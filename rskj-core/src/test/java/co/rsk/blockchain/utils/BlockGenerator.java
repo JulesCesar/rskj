@@ -19,6 +19,7 @@
 package co.rsk.blockchain.utils;
 
 import co.rsk.config.ConfigHelper;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.core.DifficultyCalculator;
 import co.rsk.core.bc.BlockChainImpl;
 import co.rsk.mine.MinimumGasPriceCalculator;
@@ -281,10 +282,10 @@ public class BlockGenerator {
         );
 
         if (difficulty == 0) {
-            newHeader.setDifficulty(difficultyCalculator.calcDifficulty(newHeader, parent.getHeader()).toByteArray());
+            newHeader.setDifficulty(difficultyCalculator.calcDifficulty(newHeader, parent.getHeader()));
         }
         else {
-            newHeader.setDifficulty(BigInteger.valueOf(difficulty).toByteArray());
+            newHeader.setDifficulty(new BlockDifficulty(BigInteger.valueOf(difficulty)));
         }
 
         newHeader.setTransactionsRoot(Block.getTxTrie(txs).getHash());

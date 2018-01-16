@@ -20,6 +20,7 @@
 package org.ethereum.core;
 
 import co.rsk.config.ConfigHelper;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.core.RskAddress;
 import co.rsk.core.bc.BlockChainImpl;
 import co.rsk.core.bc.PendingStateImpl;
@@ -51,8 +52,8 @@ public class ImportLightTest {
     public static void setup() {
         ConfigHelper.CONFIG.setBlockchainConfig(new GenesisConfig(new GenesisConfig.GenesisConstants() {
             @Override
-            public BigInteger getMinimumDifficulty() {
-                return BigInteger.ONE;
+            public BlockDifficulty getMinimumDifficulty() {
+                return new BlockDifficulty(BigInteger.ONE);
             }
         }));
     }

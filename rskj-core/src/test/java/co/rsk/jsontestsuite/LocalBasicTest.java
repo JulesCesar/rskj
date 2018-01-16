@@ -19,6 +19,7 @@
 package co.rsk.jsontestsuite;
 
 import co.rsk.config.ConfigHelper;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.core.DifficultyCalculator;
 import org.ethereum.config.BlockchainNetConfig;
 import org.ethereum.config.net.MainNetConfig;
@@ -79,8 +80,8 @@ public class LocalBasicTest {
 
             BlockHeader current = testCase.getCurrent();
             BlockHeader parent = testCase.getParent();
-            BigInteger calc = new DifficultyCalculator(ConfigHelper.CONFIG).calcDifficulty(current, parent);
-            int c = calc.compareTo(parent.getDifficulty().asBigInteger());
+            BlockDifficulty calc = new DifficultyCalculator(ConfigHelper.CONFIG).calcDifficulty(current, parent);
+            int c = calc.compareTo(parent.getDifficulty());
             if (c>0)
                 logger.info(" Difficulty increase test\n");
             else
