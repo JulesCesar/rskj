@@ -87,7 +87,7 @@ public class BlockDifficultyValidationRuleTest {
 
         BlockHeader parentHeader = Mockito.mock(BlockHeader.class);
 
-        Mockito.when(parentHeader.getDifficultyBI())
+        Mockito.when(parentHeader.getDifficulty().asBigInteger())
                 .thenReturn(parentDifficulty);
 
         Mockito.when(block.getHeader())
