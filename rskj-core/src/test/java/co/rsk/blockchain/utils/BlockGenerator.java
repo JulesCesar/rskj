@@ -208,7 +208,7 @@ public class BlockGenerator {
                 EMPTY_LIST_HASH, // uncle hash
                 coinbase, // coinbase
                 logBloom.getData(), // logs bloom
-                parent.getDifficulty(), // difficulty
+                parent.getDifficulty().getBytes(), // difficulty
                 parent.getNumber() + 1,
                 parent.getGasLimit(),
                 parent.getGasUsed(),
@@ -227,7 +227,7 @@ public class BlockGenerator {
     }
 
     public Block createChildBlock(Block parent, int ntxs) {
-        return createChildBlock(parent, ntxs, BIUtil.toBI(parent.getDifficulty()).longValue());
+        return createChildBlock(parent, ntxs, parent.getDifficulty().asBigInteger().longValue());
     }
 
     public Block createChildBlock(Block parent, int ntxs, long difficulty) {
@@ -243,7 +243,7 @@ public class BlockGenerator {
     }
 
     public Block createChildBlock(Block parent, List<Transaction> txs) {
-        return createChildBlock(parent, txs, new ArrayList<>(), BIUtil.toBI(parent.getDifficulty()).longValue(), null);
+        return createChildBlock(parent, txs, new ArrayList<>(), parent.getDifficulty().asBigInteger().longValue(), null);
     }
 
     public Block createChildBlock(Block parent, List<Transaction> txs, List<BlockHeader> uncles,
@@ -315,7 +315,7 @@ public class BlockGenerator {
                 EMPTY_LIST_HASH, // uncle hash
                 parent.getCoinbase().getBytes(), // coinbase
                 logBloom.getData(), // logs bloom
-                parent.getDifficulty(), // difficulty
+                parent.getDifficulty().getBytes(), // difficulty
                 number,
                 parent.getGasLimit(),
                 parent.getGasUsed(),
@@ -347,7 +347,7 @@ public class BlockGenerator {
                 EMPTY_LIST_HASH, // uncle hash
                 parent.getCoinbase().getBytes(), // coinbase
                 logBloom.getData(), // logs bloom
-                parent.getDifficulty(), // difficulty
+                parent.getDifficulty().getBytes(), // difficulty
                 parent.getNumber() + 1,
                 parent.getGasLimit(),
                 parent.getGasUsed(),
