@@ -19,6 +19,7 @@
 package co.rsk.net.messages;
 
 import co.rsk.blockchain.utils.BlockGenerator;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.net.Status;
 import org.ethereum.core.Block;
 import org.junit.Assert;
@@ -50,7 +51,7 @@ public class StatusMessageTest {
     public void createWithCompleteArguments() {
         Block genesis = BlockGenerator.getInstance().getGenesisBlock();
         Block block = BlockGenerator.getInstance().createChildBlock(genesis);
-        Status status = new Status(block.getNumber(), block.getHash(), block.getParentHash(), BigInteger.TEN);
+        Status status = new Status(block.getNumber(), block.getHash(), block.getParentHash(), new BlockDifficulty(BigInteger.TEN));
 
         StatusMessage message = new StatusMessage(status);
 
@@ -61,7 +62,7 @@ public class StatusMessageTest {
         Assert.assertNotNull(message.getStatus().getBestBlockParentHash());
         Assert.assertArrayEquals(block.getParentHash(), message.getStatus().getBestBlockParentHash());
         Assert.assertNotNull(message.getStatus().getTotalDifficulty());
-        Assert.assertEquals(BigInteger.TEN, message.getStatus().getTotalDifficulty());
+        Assert.assertEquals(new BlockDifficulty(BigInteger.TEN), message.getStatus().getTotalDifficulty());
     }
 
     @Test

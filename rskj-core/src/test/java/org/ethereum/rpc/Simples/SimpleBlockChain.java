@@ -20,6 +20,7 @@ package org.ethereum.rpc.Simples;
 
 
 import co.rsk.blockchain.utils.BlockGenerator;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.core.bc.BlockChainStatus;
 import org.ethereum.core.*;
 import org.ethereum.db.BlockInformation;
@@ -27,7 +28,6 @@ import org.ethereum.db.BlockStore;
 import org.ethereum.db.ReceiptStore;
 import org.ethereum.db.TransactionInfo;
 
-import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -65,7 +65,7 @@ public class SimpleBlockChain implements org.ethereum.core.Blockchain {
     }
 
     @Override
-    public void setStatus(Block block, BigInteger difficulty) {
+    public void setStatus(Block block, BlockDifficulty difficulty) {
         // not used
     }
 
@@ -88,12 +88,12 @@ public class SimpleBlockChain implements org.ethereum.core.Blockchain {
     }
 
     @Override
-    public BigInteger getTotalDifficulty() {
+    public BlockDifficulty getTotalDifficulty() {
         return null;
     }
 
     @Override
-    public void setTotalDifficulty(BigInteger totalDifficulty) {
+    public void setTotalDifficulty(BlockDifficulty totalDifficulty) {
 
     }
 

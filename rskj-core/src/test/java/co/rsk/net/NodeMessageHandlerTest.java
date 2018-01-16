@@ -20,6 +20,7 @@ package co.rsk.net;
 
 import co.rsk.blockchain.utils.BlockGenerator;
 import co.rsk.config.ConfigHelper;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.db.RepositoryImpl;
 import co.rsk.net.handler.TxHandler;
 import co.rsk.net.handler.TxHandlerImpl;
@@ -281,7 +282,7 @@ public class NodeMessageHandlerTest {
         final NodeMessageHandler handler = NodeMessageHandlerUtil.createHandlerWithSyncProcessor();
 
         final Block block = BlockGenerator.getInstance().createChildBlock(BlockGenerator.getInstance().getGenesisBlock());
-        final Status status = new Status(block.getNumber(), block.getHash(), block.getParentHash(), BigInteger.TEN);
+        final Status status = new Status(block.getNumber(), block.getHash(), block.getParentHash(), new BlockDifficulty(BigInteger.TEN));
         final Message message = new StatusMessage(status);
 
         handler.processMessage(sender, message);

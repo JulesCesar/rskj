@@ -20,6 +20,7 @@ package co.rsk.core.bc;
 
 import co.rsk.blockchain.utils.BlockGenerator;
 import co.rsk.config.ConfigHelper;
+import co.rsk.core.BlockDifficulty;
 import org.ethereum.core.Block;
 import org.ethereum.datasource.HashMapDB;
 import org.ethereum.db.BlockStore;
@@ -36,14 +37,17 @@ import java.util.List;
  * Created by ajlopez on 09/08/2016.
  */
 public class BlockForkTest {
+
+    public static final BlockDifficulty TEST_DIFFICULTY = new BlockDifficulty(BigInteger.ONE);
+
     @Test
     public void calculateParentChild() {
         BlockStore store = createBlockStore();
         Block genesis = BlockGenerator.getInstance().getGenesisBlock();
         Block block = BlockGenerator.getInstance().createChildBlock(genesis);
 
-        store.saveBlock(genesis, BigInteger.ONE, true);
-        store.saveBlock(block, BigInteger.ONE, true);
+        store.saveBlock(genesis, TEST_DIFFICULTY, true);
+        store.saveBlock(block, TEST_DIFFICULTY, true);
 
         BlockFork fork = new BlockFork();
 
@@ -62,8 +66,8 @@ public class BlockForkTest {
         Block genesis = BlockGenerator.getInstance().getGenesisBlock();
         Block parent = BlockGenerator.getInstance().createChildBlock(genesis);
 
-        store.saveBlock(genesis, BigInteger.ONE, true);
-        store.saveBlock(parent, BigInteger.ONE, true);
+        store.saveBlock(genesis, TEST_DIFFICULTY, true);
+        store.saveBlock(parent, TEST_DIFFICULTY, true);
 
         List<Block> oldBranch = makeChain(parent, 2, store);
         List<Block> newBranch = makeChain(parent, 2, store);
@@ -91,8 +95,8 @@ public class BlockForkTest {
         Block genesis = BlockGenerator.getInstance().getGenesisBlock();
         Block parent = BlockGenerator.getInstance().createChildBlock(genesis);
 
-        store.saveBlock(genesis, BigInteger.ONE, true);
-        store.saveBlock(parent, BigInteger.ONE, true);
+        store.saveBlock(genesis, TEST_DIFFICULTY, true);
+        store.saveBlock(parent, TEST_DIFFICULTY, true);
 
         List<Block> oldBranch = makeChain(parent, 2, store);
         List<Block> newBranch = makeChain(parent, 3, store);
@@ -121,8 +125,8 @@ public class BlockForkTest {
         Block genesis = BlockGenerator.getInstance().getGenesisBlock();
         Block parent = BlockGenerator.getInstance().createChildBlock(genesis);
 
-        store.saveBlock(genesis, BigInteger.ONE, true);
-        store.saveBlock(parent, BigInteger.ONE, true);
+        store.saveBlock(genesis, TEST_DIFFICULTY, true);
+        store.saveBlock(parent, TEST_DIFFICULTY, true);
 
         List<Block> oldBranch = makeChain(parent, 3, store);
         List<Block> newBranch = makeChain(parent, 2, store);
@@ -151,7 +155,7 @@ public class BlockForkTest {
         for (int k = 0; k < length; k++) {
             Block block = BlockGenerator.getInstance().createChildBlock(parent);
             blocks.add(block);
-            store.saveBlock(block, BigInteger.ONE, false);
+            store.saveBlock(block, TEST_DIFFICULTY, false);
             parent = block;
         }
 

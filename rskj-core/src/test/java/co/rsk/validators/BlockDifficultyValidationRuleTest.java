@@ -21,6 +21,7 @@ package co.rsk.validators;
 import co.rsk.bitcoinj.core.NetworkParameters;
 import co.rsk.config.BridgeConstants;
 import co.rsk.config.ConfigHelper;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.core.DifficultyCalculator;
 import co.rsk.core.RskAddress;
 import org.ethereum.config.BlockchainNetConfig;
@@ -57,9 +58,9 @@ public class BlockDifficultyValidationRuleTest {
         ConfigHelper.CONFIG.setBlockchainConfig(blockchainNetConfigOriginal);
     }
 
-    private BlockHeader getEmptyHeader(BigInteger difficulty,long blockTimestamp,int uCount) {
+    private BlockHeader getEmptyHeader(BlockDifficulty difficulty, long blockTimestamp, int uCount) {
         BlockHeader header = new BlockHeader(null, null,
-                RskAddress.nullAddress().getBytes(), null, difficulty.toByteArray(), 0,
+                RskAddress.nullAddress().getBytes(), null, difficulty.getBytes(), 0,
                 null, 0,
                 blockTimestamp, null, null, uCount);
         return header;
@@ -75,19 +76,19 @@ public class BlockDifficultyValidationRuleTest {
         long parentTimestamp = 0;
         long blockTimeStamp  = 10;
 
-        BigInteger parentDifficulty = new BigInteger("2048");
-        BigInteger blockDifficulty = new BigInteger("2049");
+        BlockDifficulty parentDifficulty = new BlockDifficulty(new BigInteger("2048"));
+        BlockDifficulty blockDifficulty = new BlockDifficulty(new BigInteger("2049"));
 
         //blockDifficulty = blockDifficulty.add(AbstractConfig.getConstants().getDifficultyBoundDivisor());
 
-        Mockito.when(block.getDifficultyBI())
+        Mockito.when(block.getDifficulty())
                 .thenReturn(blockDifficulty);
 
         BlockHeader blockHeader =getEmptyHeader(blockDifficulty, blockTimeStamp ,1);
 
         BlockHeader parentHeader = Mockito.mock(BlockHeader.class);
 
-        Mockito.when(parentHeader.getDifficulty().asBigInteger())
+        Mockito.when(parentHeader.getDifficulty())
                 .thenReturn(parentDifficulty);
 
         Mockito.when(block.getHeader())
@@ -96,7 +97,7 @@ public class BlockDifficultyValidationRuleTest {
         Mockito.when(parent.getHeader())
                 .thenReturn(parentHeader);
 
-        Mockito.when(parent.getDifficultyBI())
+        Mockito.when(parent.getDifficulty())
                 .thenReturn(parentDifficulty);
 
         Mockito.when(parent.getTimestamp())

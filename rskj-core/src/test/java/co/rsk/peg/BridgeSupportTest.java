@@ -28,6 +28,7 @@ import co.rsk.bitcoinj.store.BtcBlockStore;
 import co.rsk.bitcoinj.wallet.Wallet;
 import co.rsk.blockchain.utils.BlockGenerator;
 import co.rsk.config.*;
+import co.rsk.core.BlockDifficulty;
 import co.rsk.core.RskAddress;
 import co.rsk.crypto.Sha3Hash;
 import co.rsk.db.RepositoryImpl;
@@ -97,6 +98,7 @@ import static org.mockito.Mockito.*;
 @PrepareForTest({ BridgeUtils.class })
 public class BridgeSupportTest {
     private static final RskAddress contractAddress = PrecompiledContracts.BRIDGE_ADDR;
+    public static final BlockDifficulty TEST_DIFFICULTY = new BlockDifficulty(BigInteger.ONE);
 
     private static BlockchainNetConfig blockchainNetConfigOriginal;
     private static BridgeConstants bridgeConstants;
@@ -406,7 +408,7 @@ public class BridgeSupportTest {
 
 
         for (Block block : blocks)
-            blockchain.getBlockStore().saveBlock(block, BigInteger.ONE, true);
+            blockchain.getBlockStore().saveBlock(block, TEST_DIFFICULTY, true);
 
         org.ethereum.core.Block rskCurrentBlock = blocks.get(9);
         Transaction tx = Transaction.create(ConfigHelper.CONFIG, TO_ADDRESS, DUST_AMOUNT, NONCE, GAS_PRICE, GAS_LIMIT, DATA);
@@ -463,7 +465,7 @@ public class BridgeSupportTest {
         Blockchain blockchain = builder.setTesting(true).build();
 
         for (Block block : blocks)
-            blockchain.getBlockStore().saveBlock(block, BigInteger.ONE, true);
+            blockchain.getBlockStore().saveBlock(block, TEST_DIFFICULTY, true);
 
         org.ethereum.core.Block rskCurrentBlock = blocks.get(9);
         ReceiptStore rskReceiptStore = blockchain.getReceiptStore();
@@ -578,7 +580,7 @@ public class BridgeSupportTest {
         Blockchain blockchain = builder.setTesting(true).setGenesis(genesisBlock).build();
 
         for (Block block : blocks)
-            blockchain.getBlockStore().saveBlock(block, BigInteger.ONE, true);
+            blockchain.getBlockStore().saveBlock(block, TEST_DIFFICULTY, true);
 
         org.ethereum.core.Block rskCurrentBlock = blocks.get(9);
 
@@ -664,7 +666,7 @@ public class BridgeSupportTest {
         Blockchain blockchain = builder.setTesting(true).build();
 
         for (Block block : blocks)
-            blockchain.getBlockStore().saveBlock(block, BigInteger.ONE, true);
+            blockchain.getBlockStore().saveBlock(block, TEST_DIFFICULTY, true);
 
         org.ethereum.core.Block rskCurrentBlock = blocks.get(9);
         Transaction rskTx = Transaction.create(ConfigHelper.CONFIG, TO_ADDRESS, DUST_AMOUNT, NONCE, GAS_PRICE, GAS_LIMIT, DATA);

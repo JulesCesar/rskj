@@ -577,7 +577,7 @@ public class BlockChainImplTest {
         BlockChainImpl blockChain = createBlockChain();
         Block genesis = getGenesisBlock(blockChain);
         Block block1 = BlockGenerator.getInstance().createChildBlock(genesis);
-        long difficulty = genesis.getDifficultyBI().longValue() + 1;
+        long difficulty = genesis.getDifficulty().asBigInteger().longValue() + 1;
         Block block1b = BlockGenerator.getInstance().createChildBlock(genesis, 0, difficulty);
 
         Assert.assertEquals(ImportResult.IMPORTED_BEST, blockChain.tryToConnect(genesis));

@@ -20,9 +20,8 @@
 package org.ethereum.facade;
 
 import co.rsk.blocks.BlockRecorder;
+import co.rsk.core.BlockDifficulty;
 import org.ethereum.core.Block;
-
-import java.math.BigInteger;
 
 public interface Blockchain {
 
@@ -46,7 +45,7 @@ public interface Blockchain {
      *
      * @return - total difficulty
      */
-    BigInteger getTotalDifficulty();
+    BlockDifficulty getTotalDifficulty();
 
     /**
      * @return - last added block from blockchain
