@@ -366,7 +366,8 @@ public class Web3ImplLogsTest {
 
     @Test
     public void getLogsFromBlockchainWithCallContract() throws Exception {
-        Web3Impl web3 = getWeb3WithContractCall();
+        World world = new World();
+        Web3Impl web3 = getWeb3WithContractCall(world);
 
         Web3.FilterRequest fr = new Web3.FilterRequest();
         fr.fromBlock = "earliest";
@@ -378,8 +379,9 @@ public class Web3ImplLogsTest {
 
     @Test
     public void getLogsFromBlockchainWithCallContractAndFilterByContractAddress() throws Exception {
-        Web3Impl web3 = getWeb3WithContractCall();
-        Block block1 = web3.getBlockchain().getBlockByNumber(1l);
+        World world = new World();
+        Web3Impl web3 = getWeb3WithContractCall(world);
+        Block block1 = world.getBlockChain().getBlockByNumber(1l);
         Web3.FilterRequest fr = new Web3.FilterRequest();
         fr.fromBlock = "earliest";
         fr.address = Hex.toHexString(block1.getTransactionsList().get(0).getContractAddress().getBytes());
@@ -397,7 +399,8 @@ public class Web3ImplLogsTest {
 
     @Test
     public void getLogsFromBlockchainWithCallContractAndFilterByUnknownContractAddress() throws Exception {
-        Web3Impl web3 = getWeb3WithContractCall();
+        World world = new World();
+        Web3Impl web3 = getWeb3WithContractCall(world);
 
         Web3.FilterRequest fr = new Web3.FilterRequest();
         fr.fromBlock = "earliest";
@@ -412,7 +415,9 @@ public class Web3ImplLogsTest {
 
     @Test
     public void getLogsFromBlockchainWithCallContractAndFilterByUnknownTopic() throws Exception {
-        Web3Impl web3 = getWeb3WithContractCall();
+        World world = new World();
+        Web3Impl web3 = getWeb3WithContractCall(world);
+
         Web3.FilterRequest fr = new Web3.FilterRequest();
         fr.fromBlock = "earliest";
         fr.topics = new Object[1];
@@ -425,8 +430,10 @@ public class Web3ImplLogsTest {
 
     @Test
     public void getLogsFromBlockchainWithCallContractAndFilterByKnownTopic() throws Exception {
-        Web3Impl web3 = getWeb3WithContractCall();
-        Block block1 = web3.getBlockchain().getBlockByNumber(1l);
+        World world = new World();
+        Web3Impl web3 = getWeb3WithContractCall(world);
+
+        Block block1 = world.getBlockChain().getBlockByNumber(1l);
         Web3.FilterRequest fr = new Web3.FilterRequest();
         fr.fromBlock = "earliest";
         fr.topics = new Object[1];
@@ -441,8 +448,9 @@ public class Web3ImplLogsTest {
 
     @Test
     public void getLogsFromBlockchainWithCallContractAndFilterByKnownTopicInList() throws Exception {
-        Web3Impl web3 = getWeb3WithContractCall();
-        Block block1 = web3.getBlockchain().getBlockByNumber(1l);
+        World world = new World();
+        Web3Impl web3 = getWeb3WithContractCall(world);
+        Block block1 = world.getBlockChain().getBlockByNumber(1l);
         Web3.FilterRequest fr = new Web3.FilterRequest();
         fr.fromBlock = "earliest";
         fr.topics = new Object[1];
@@ -817,8 +825,7 @@ public class Web3ImplLogsTest {
         return web3;
     }
 
-    private Web3Impl getWeb3WithContractCall() {
-        World world = new World();
+    private Web3Impl getWeb3WithContractCall(World world) {
         Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
         // acc1 Account created address should be 661b05ca9eb621164906671efd2731ce0d7dd8b4
 
