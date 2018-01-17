@@ -55,7 +55,6 @@ import org.ethereum.rpc.exception.JsonRpcInvalidParamException;
 import org.ethereum.rpc.exception.JsonRpcUnimplementedMethodException;
 import org.ethereum.util.BuildInfo;
 import org.ethereum.vm.DataWord;
-import org.ethereum.vm.LogInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -67,8 +66,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import static java.lang.Math.max;
 import static org.ethereum.rpc.TypeConverter.*;
