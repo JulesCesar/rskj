@@ -441,7 +441,7 @@ public class Web3Impl implements Web3 {
         }
 
         RskAddress addr = new RskAddress(address);
-        BigInteger balance = repository.getBalance(addr);
+        BigInteger balance = repository.getBalance(addr).asBigInteger();
 
         return toJsonHex(balance);
     }
@@ -449,7 +449,7 @@ public class Web3Impl implements Web3 {
     @Override
     public String eth_getBalance(String address) throws Exception {
         RskAddress addr = new RskAddress(address);
-        BigInteger balance = this.repository.getBalance(addr);
+        BigInteger balance = this.repository.getBalance(addr).asBigInteger();
 
         return toJsonHex(balance);
     }

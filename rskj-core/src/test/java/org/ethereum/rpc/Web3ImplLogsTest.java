@@ -19,6 +19,7 @@
 package org.ethereum.rpc;
 
 import co.rsk.config.RskSystemProperties;
+import co.rsk.core.Coin;
 import co.rsk.core.Wallet;
 import co.rsk.core.WalletFactory;
 import co.rsk.core.bc.PendingStateImpl;
@@ -108,7 +109,7 @@ public class Web3ImplLogsTest {
     @Test
     public void newFilterGetChangesAfterBlock() throws Exception {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         SimpleWorldManager worldManager = new SimpleWorldManager();
         worldManager.setBlockchain(world.getBlockChain());
@@ -315,7 +316,7 @@ public class Web3ImplLogsTest {
     @Test
     public void createMainContractWithoutEvents() throws Exception {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         SimpleWorldManager worldManager = new SimpleWorldManager();
         worldManager.setBlockchain(world.getBlockChain());
@@ -356,7 +357,7 @@ public class Web3ImplLogsTest {
     @Test
     public void createCallerContractWithEvents() throws Exception {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         SimpleWorldManager worldManager = new SimpleWorldManager();
         worldManager.setBlockchain(world.getBlockChain());
@@ -411,7 +412,7 @@ public class Web3ImplLogsTest {
     @Test
     public void createCallerContractWithEventsOnInvoke() throws Exception {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         SimpleWorldManager worldManager = new SimpleWorldManager();
         worldManager.setBlockchain(world.getBlockChain());
@@ -487,7 +488,7 @@ public class Web3ImplLogsTest {
         SimpleWorldManager worldManager = new SimpleWorldManager();
         worldManager.setBlockchain(world.getBlockChain());
         Web3Impl web3 = createWeb3(worldManager);
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         Block genesis = world.getBlockByName("g00");
 
@@ -499,7 +500,7 @@ public class Web3ImplLogsTest {
         SimpleWorldManager worldManager = new SimpleWorldManager();
         worldManager.setBlockchain(world.getBlockChain());
         Web3Impl web3 = createWeb3(worldManager);
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         Block genesis = world.getBlockByName("g00");
         Block block1 = new BlockBuilder().parent(genesis).build();
@@ -513,7 +514,7 @@ public class Web3ImplLogsTest {
     String compiledGreeter = "60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff02191690836c010000000000000000000000009081020402179055505b610181806100516000396000f360606040526000357c010000000000000000000000000000000000000000000000000000000090048063ead710c41461003c57610037565b610002565b34610002576100956004808035906020019082018035906020019191908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050909091905050610103565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156100f55780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6020604051908101604052806000815260200150600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561017357610002565b81905061017b565b5b91905056";
     private Web3Impl getWeb3WithContractCreationWithoutEvents() {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         Block genesis = world.getBlockByName("g00");
 
@@ -555,7 +556,7 @@ public class Web3ImplLogsTest {
 
     private Web3Impl getWeb3WithEventInContractCreation() {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         Block genesis = world.getBlockByName("g00");
         Transaction tx;
@@ -579,7 +580,7 @@ public class Web3ImplLogsTest {
 
     private Web3Impl getWeb3WithContractInvoke() {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
 
         Block genesis = world.getBlockByName("g00");
         Transaction tx;
@@ -612,7 +613,7 @@ public class Web3ImplLogsTest {
 
     private Web3Impl getWeb3WithContractCall() {
         World world = new World();
-        Account acc1 = new AccountBuilder(world).name("notDefault").balance(BigInteger.valueOf(10000000)).build();
+        Account acc1 = new AccountBuilder(world).name("notDefault").balance(Coin.valueOf(10000000L)).build();
         // acc1 Account created address should be 661b05ca9eb621164906671efd2731ce0d7dd8b4
 
         Block genesis = world.getBlockByName("g00");

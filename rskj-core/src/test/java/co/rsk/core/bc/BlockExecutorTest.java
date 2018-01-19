@@ -21,6 +21,7 @@ package co.rsk.core.bc;
 import co.rsk.blockchain.utils.BlockGenerator;
 import co.rsk.config.RskSystemProperties;
 import co.rsk.core.BlockchainDummy;
+import co.rsk.core.Coin;
 import co.rsk.db.RepositoryImpl;
 import co.rsk.test.builders.BlockChainBuilder;
 import co.rsk.trie.TrieStoreImpl;
@@ -65,7 +66,7 @@ public class BlockExecutorTest {
 
         Repository track = repository.startTracking();
 
-        Account account = createAccount("acctest1", track, BigInteger.TEN);
+        Account account = createAccount("acctest1", track, Coin.valueOf(10L));
         Assert.assertTrue(account.getEcKey().hasPrivKey());
         track.commit();
 
@@ -84,7 +85,7 @@ public class BlockExecutorTest {
         AccountState accountState = repository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.TEN, accountState.getBalance());
+        Assert.assertEquals(BigInteger.TEN, accountState.getBalance().asBigInteger());
     }
 
     @Test
@@ -114,7 +115,7 @@ public class BlockExecutorTest {
         Assert.assertTrue(receipt.hasTxStatus() && receipt.isTxStatusOK() && receipt.isSuccessful());
 
         Assert.assertEquals(21000, result.getGasUsed());
-        Assert.assertEquals(21000, result.getPaidFees().intValueExact());
+        Assert.assertEquals(21000, result.getPaidFees().asBigInteger().intValueExact());
 
         Assert.assertNotNull(result.getReceiptsRoot());
         Assert.assertArrayEquals(BlockChainImpl.calcReceiptsTrie(result.getTransactionReceipts()), result.getReceiptsRoot());
@@ -130,14 +131,14 @@ public class BlockExecutorTest {
         AccountState accountState = repository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.valueOf(30000), accountState.getBalance());
+        Assert.assertEquals(BigInteger.valueOf(30000), accountState.getBalance().asBigInteger());
 
         Repository finalRepository = repository.getSnapshotTo(result.getStateRoot());
 
         accountState = finalRepository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.valueOf(30000 - 21000 - 10), accountState.getBalance());
+        Assert.assertEquals(BigInteger.valueOf(30000 - 21000 - 10), accountState.getBalance().asBigInteger());
     }
 
     @Test
@@ -146,8 +147,8 @@ public class BlockExecutorTest {
 
         Repository track = repository.startTracking();
 
-        Account account = createAccount("acctest1", track, BigInteger.valueOf(60000));
-        Account account2 = createAccount("acctest2", track, BigInteger.TEN);
+        Account account = createAccount("acctest1", track, Coin.valueOf(60000));
+        Account account2 = createAccount("acctest2", track, Coin.valueOf(10L));
 
         track.commit();
 
@@ -186,7 +187,7 @@ public class BlockExecutorTest {
         Assert.assertTrue(receipt.hasTxStatus() && receipt.isTxStatusOK() && receipt.isSuccessful());
 
         Assert.assertEquals(42000, result.getGasUsed());
-        Assert.assertEquals(42000, result.getPaidFees().intValueExact());
+        Assert.assertEquals(42000, result.getPaidFees().asBigInteger().intValueExact());
 
         Assert.assertNotNull(result.getReceiptsRoot());
         Assert.assertArrayEquals(BlockChainImpl.calcReceiptsTrie(result.getTransactionReceipts()), result.getReceiptsRoot());
@@ -200,14 +201,14 @@ public class BlockExecutorTest {
         AccountState accountState = repository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.valueOf(60000), accountState.getBalance());
+        Assert.assertEquals(BigInteger.valueOf(60000), accountState.getBalance().asBigInteger());
 
         Repository finalRepository = repository.getSnapshotTo(result.getStateRoot());
 
         accountState = finalRepository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.valueOf(60000 - 42000 - 20), accountState.getBalance());
+        Assert.assertEquals(BigInteger.valueOf(60000 - 42000 - 20), accountState.getBalance().asBigInteger());
     }
 
     @Test
@@ -235,9 +236,9 @@ public class BlockExecutorTest {
 
         Repository track = repository.startTracking();
 
-        Account account = createAccount("acctest1", track, BigInteger.valueOf(30000));
-        Account account2 = createAccount("acctest2", track, BigInteger.TEN);
-        Account account3 = createAccount("acctest3", track, BigInteger.ZERO);
+        Account account = createAccount("acctest1", track, Coin.valueOf(30000));
+        Account account2 = createAccount("acctest2", track, Coin.valueOf(10L));
+        Account account3 = createAccount("acctest3", track, Coin.ZERO);
 
         track.commit();
 
@@ -273,9 +274,9 @@ public class BlockExecutorTest {
 
         Repository track = repository.startTracking();
 
-        Account account = createAccount("acctest1", track, BigInteger.valueOf(30000));
-        Account account2 = createAccount("acctest2", track, BigInteger.TEN);
-        Account account3 = createAccount("acctest3", track, BigInteger.ZERO);
+        Account account = createAccount("acctest1", track, Coin.valueOf(30000));
+        Account account2 = createAccount("acctest2", track, Coin.valueOf(10L));
+        Account account3 = createAccount("acctest3", track, Coin.ZERO);
 
         track.commit();
 
@@ -355,7 +356,7 @@ public class BlockExecutorTest {
         Block block = objects.getBlock();
         BlockExecutor executor = new BlockExecutor(config, objects.getRepository(), new BlockchainDummy(), null, null);
 
-        block.getHeader().setPaidFees(BigInteger.ZERO);
+        block.getHeader().setPaidFees(Coin.ZERO);
 
         Assert.assertFalse(executor.executeAndValidate(block, parent));
     }
@@ -379,8 +380,8 @@ public class BlockExecutorTest {
 
         Repository track = repository.startTracking();
 
-        Account account = createAccount("acctest1", track, BigInteger.valueOf(30000));
-        Account account2 = createAccount("acctest2", track, BigInteger.TEN);
+        Account account = createAccount("acctest1", track, Coin.valueOf(30000));
+        Account account2 = createAccount("acctest2", track, Coin.valueOf(10L));
 
         track.commit();
 
@@ -411,7 +412,7 @@ public class BlockExecutorTest {
         return tx;
     }
 
-    public static Account createAccount(String seed, Repository repository, BigInteger balance) {
+    public static Account createAccount(String seed, Repository repository, Coin balance) {
         Account account = createAccount(seed);
         repository.createAccount(account.getAddress());
         repository.addBalance(account.getAddress(), balance);
@@ -500,14 +501,14 @@ public class BlockExecutorTest {
         AccountState accountState = repository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.valueOf(30000), accountState.getBalance());
+        Assert.assertEquals(BigInteger.valueOf(30000), accountState.getBalance().asBigInteger());
 
         Repository finalRepository = repository.getSnapshotTo(result.getStateRoot());
 
         accountState = finalRepository.getAccountState(account.getAddress());
 
         Assert.assertNotNull(accountState);
-        Assert.assertEquals(BigInteger.valueOf(30000 - 21000 - 10), accountState.getBalance());
+        Assert.assertEquals(BigInteger.valueOf(30000 - 21000 - 10), accountState.getBalance().asBigInteger());
     }
 
     public static TestObjects generateBlockWithOneStrangeTransaction(int strangeTransactionType) {
@@ -517,8 +518,8 @@ public class BlockExecutorTest {
 
         Repository track = repository.startTracking();
 
-        Account account = createAccount("acctest1", track, BigInteger.valueOf(30000));
-        Account account2 = createAccount("acctest2", track, BigInteger.TEN);
+        Account account = createAccount("acctest1", track, Coin.valueOf(30000));
+        Account account2 = createAccount("acctest2", track, Coin.valueOf(10L));
 
         track.commit();
 
