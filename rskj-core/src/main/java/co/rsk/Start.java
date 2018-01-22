@@ -121,7 +121,9 @@ public class Start {
         logger.info("Running {},  core version: {}-{}", rskSystemProperties.genesisInfo(), rskSystemProperties.projectVersion(), rskSystemProperties.projectVersionModifier());
         BuildInfo.printInfo();
 
+        pendingState.processBest(blockchain.getBestBlock());
         pendingState.start();
+
         channelManager.start();
         txHandler.start();
         messageHandler.start();

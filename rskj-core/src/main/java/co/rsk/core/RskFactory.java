@@ -150,6 +150,7 @@ public class RskFactory {
     public BlockChainImpl getBlockchain(org.ethereum.core.Repository repository,
                                         org.ethereum.db.BlockStore blockStore,
                                         ReceiptStore receiptStore,
+                                        PendingState pendingState,
                                         EthereumListener listener,
                                         AdminInfo adminInfo,
                                         BlockValidator blockValidator,
@@ -159,7 +160,7 @@ public class RskFactory {
                 repository,
                 blockStore,
                 receiptStore,
-                null, // circular dependency
+                pendingState,
                 listener,
                 adminInfo,
                 blockValidator
@@ -167,23 +168,20 @@ public class RskFactory {
     }
 
     @Bean
-    public PendingState getPendingState(BlockChainImpl blockchain,
-                                        org.ethereum.db.BlockStore blockStore,
+    public PendingState getPendingState(org.ethereum.db.BlockStore blockStore,
+                                        ReceiptStore receiptStore,
                                         org.ethereum.core.Repository repository,
                                         RskSystemProperties config,
                                         ProgramInvokeFactory programInvokeFactory,
                                         EthereumListener listener) {
-        PendingStateImpl pendingState = new PendingStateImpl(
-                blockchain,
+        return new PendingStateImpl(
                 blockStore,
+                receiptStore,
                 listener,
                 programInvokeFactory,
                 repository,
                 config
         );
-        // circular dependency
-        blockchain.setPendingState(pendingState);
-        return pendingState;
     }
 
     @Bean
