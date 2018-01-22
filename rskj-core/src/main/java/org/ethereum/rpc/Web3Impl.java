@@ -396,7 +396,7 @@ public class Web3Impl implements Web3 {
     public String eth_gasPrice() {
         String gasPrice = null;
         try {
-            return gasPrice = TypeConverter.toJsonHex(eth.getGasPrice());
+            return gasPrice = TypeConverter.toJsonHex(eth.getGasPrice().asBigInteger().longValue());
         } finally {
             if (logger.isDebugEnabled()) {
                 logger.debug("eth_gasPrice(): " + gasPrice);
