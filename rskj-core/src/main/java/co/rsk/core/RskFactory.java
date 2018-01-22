@@ -66,7 +66,6 @@ import org.ethereum.sync.SyncPool;
 import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -217,13 +216,12 @@ public class RskFactory {
     }
 
     @Bean
-    public EthHandlerFactoryImpl.RskWireProtocolFactory getRskWireProtocolFactory(ApplicationContext ctx,
-                                                                                  PeerScoringManager peerScoringManager,
+    public EthHandlerFactoryImpl.RskWireProtocolFactory getRskWireProtocolFactory(PeerScoringManager peerScoringManager,
+                                                                                  MessageHandler messageHandler,
                                                                                   Blockchain blockchain,
                                                                                   RskSystemProperties config,
                                                                                   CompositeEthereumListener ethereumListener){
-        // TODO: break MessageHandler circular dependency
-        return () -> new RskWireProtocol(config, peerScoringManager, ctx.getBean(MessageHandler.class), blockchain, ethereumListener);
+        return () -> new RskWireProtocol(config, peerScoringManager, messageHandler, blockchain, ethereumListener);
     }
 
     @Bean
