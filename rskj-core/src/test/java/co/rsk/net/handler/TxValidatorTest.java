@@ -64,7 +64,7 @@ public class TxValidatorTest {
         Mockito.when(worldManager.getBlockchain()).thenReturn(blockchain);
         Mockito.when(blockchain.getBestBlock()).thenReturn(block);
         Mockito.when(block.getGasLimit()).thenReturn(BigInteger.valueOf(blockGasLimit).toByteArray());
-        Mockito.when(block.getMinimumGasPrice()).thenReturn(BigInteger.valueOf(1).toByteArray());
+        Mockito.when(block.getMinimumGasPrice()).thenReturn(Coin.valueOf(1L));
         times = new HashMap<>();
         txmap = new HashMap<>();
 
@@ -153,7 +153,7 @@ public class TxValidatorTest {
         Mockito.when(worldManager.getBlockchain()).thenReturn(blockchain);
         Mockito.when(blockchain.getBestBlock()).thenReturn(block);
         Mockito.when(block.getGasLimit()).thenReturn(BigInteger.valueOf(blockGasLimit).toByteArray());
-        Mockito.when(block.getMinimumGasPrice()).thenReturn(BigInteger.valueOf(1).toByteArray());
+        Mockito.when(block.getMinimumGasPrice()).thenReturn(Coin.valueOf(1L));
         createAccountState(txs.get(0), repository, 0, 0);
         times = new HashMap<>();
         txmap = new HashMap<>();
