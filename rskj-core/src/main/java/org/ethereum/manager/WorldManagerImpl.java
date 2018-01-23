@@ -84,10 +84,6 @@ public class WorldManagerImpl implements WorldManager {
     }
 
     @Override
-    public BlockStore getBlockStore() {
-        return blockStore;
-    }
-
     @PreDestroy
     public void close() {
         repository.close();
