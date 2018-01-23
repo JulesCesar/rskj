@@ -23,6 +23,7 @@ import org.ethereum.db.ByteArrayWrapper;
 import org.spongycastle.util.encoders.Hex;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -460,10 +461,6 @@ public class ByteUtil {
             start += array.length;
         }
         return mergedArray;
-    }
-
-    public static boolean isNullOrZeroArray(byte[] array){
-        return (array == null) || (array.length == 0);
     }
 
     public static boolean isSingleZero(byte[] array){
