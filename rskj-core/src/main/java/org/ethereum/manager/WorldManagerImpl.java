@@ -36,8 +36,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PreDestroy;
-
 /**
  * WorldManager is a singleton containing references to different parts of the system.
  *
@@ -81,13 +79,6 @@ public class WorldManagerImpl implements WorldManager {
 
         BlockChainLoader loader = new BlockChainLoader(config, this.blockchain, this.blockStore, this.repository, this.listener);
         loader.loadBlockchain();
-    }
-
-    @Override
-    @PreDestroy
-    public void close() {
-        repository.close();
-        blockchain.close();
     }
 
     @Override
