@@ -68,7 +68,7 @@ public class RskSystemProperties extends SystemProperties {
 
     @Nullable
     public RskAddress coinbaseAddress() {
-        if (!minerServerEnabled()) {
+        if (!isMinerServerEnabled()) {
             return RskAddress.nullAddress();
         }
 
@@ -88,7 +88,7 @@ public class RskSystemProperties extends SystemProperties {
 
     @Nullable
     public Account localCoinbaseAccount() {
-        if (!minerServerEnabled()) {
+        if (!isMinerServerEnabled()) {
             return null;
         }
 
@@ -110,12 +110,12 @@ public class RskSystemProperties extends SystemProperties {
         return new Account(ECKey.fromPrivate(HashUtil.sha3(coinbaseSecret.getBytes(StandardCharsets.UTF_8))));
     }
 
-    public boolean minerClientEnabled() {
+    public boolean isMinerClientEnabled() {
         return configFromFiles.hasPath("miner.client.enabled") ?
                 configFromFiles.getBoolean("miner.client.enabled") : false;
     }
 
-    public boolean minerServerEnabled() {
+    public boolean isMinerServerEnabled() {
         return configFromFiles.hasPath("miner.server.enabled") ?
                 configFromFiles.getBoolean("miner.server.enabled") : false;
     }

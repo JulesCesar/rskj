@@ -42,6 +42,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -103,7 +104,6 @@ public abstract class SystemProperties {
 
     private String genesisInfo = null;
 
-    private String bindIp = null;
     private String externalIp = null;
 
     private Boolean syncEnabled = null;
@@ -288,7 +288,7 @@ public abstract class SystemProperties {
     }
 
     @ValidateMe
-    public boolean peerDiscovery() {
+    public boolean isPeerDiscoveryEnabled() {
         return discoveryEnabled == null ? configFromFiles.getBoolean("peer.discovery.enabled") : discoveryEnabled;
     }
 
@@ -558,21 +558,17 @@ public abstract class SystemProperties {
         return configFromFiles.getInt("peer.listen.port");
     }
 
-    public String getPeerDiscoveryBindAddress() {
-        if (bindIp != null) {
-            return bindIp;
+    public InetAddress getBindAddress() {
+        if (!configFromFiles.hasPath("bind.ip")) {
+            return InetAddress.getLoopbackAddress();
         }
-
-        bindIp = DEFAULT_BIND_IP;
-        if (configFromFiles.hasPath("peer.discovery.bind.ip")) {
-            String bindIpFromConfig = configFromFiles.getString("peer.discovery.bind.ip").trim();
-            if (!bindIpFromConfig.isEmpty()) {
-                bindIp = bindIpFromConfig;
-            }
+        String host = configFromFiles.getString("bind.ip");
+        try {
+            return InetAddress.getByName(host);
+        } catch (UnknownHostException e) {
+            logger.warn("Unable to bind to {}. Using loopback instead", e);
+            return InetAddress.getLoopbackAddress();
         }
-
-        logger.info("Binding peer discovery on {}", bindIp);
-        return bindIp;
     }
 
     /**
@@ -617,7 +613,7 @@ public abstract class SystemProperties {
             logger.info("External address identified: {}", externalIp);
         } catch (IOException e) {
             logger.error("Can't get external IP. " + e);
-            externalIp = getPeerDiscoveryBindAddress();
+            externalIp = getBindAddress().toString();
         }
         return externalIp;
     }
